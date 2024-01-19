@@ -1,9 +1,9 @@
-package com.kimoi.nomore.repository;
+// package com.kimoi.nomore.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.kimoi.nomore.domain.ProdCtgr;
+// import com.kimoi.nomore.domain.ProdCtgr;
 
-public interface ProdCtgrRepository extends JpaRepository<ProdCtgr, Long>{
+// public interface ProdCtgrRepository extends JpaRepository<ProdCtgr, Long>{
     
-}
+// }

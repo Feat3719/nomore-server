@@ -1,9 +1,9 @@
-package com.kimoi.nomore.repository;
+// package com.kimoi.nomore.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.kimoi.nomore.domain.Order;
+// import com.kimoi.nomore.domain.Order;
 
-public interface OrderRepository extends JpaRepository<Order, Long>{
+// public interface OrderRepository extends JpaRepository<Order, Long>{
     
-}
+// }

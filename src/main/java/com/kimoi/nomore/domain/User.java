@@ -1,4 +1,4 @@
-package com.kimoi.nomore.domain.user;
+package com.kimoi.nomore.domain;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -25,7 +23,6 @@ import lombok.NoArgsConstructor;
 public class User implements UserDetails{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private String userId;
 
@@ -60,25 +57,12 @@ public class User implements UserDetails{
     public User(
             String userId,
             String userPwd,
-            String userName,
-            String userEmail,
-            String userTel,
-            String userAddress,
-            String userJoinedYmd,
-            String userGender,
-            Long userAge,
-            String userFamilyCounts) {
+            String userEmail
+            ) {
         this.userId = userId;
         this.userPwd = userPwd;
-        this.userName = userName;
         this.userEmail = userEmail;
-        this.userTel = userTel;
-        this.userAddress = userAddress;
-        this.userJoinedYmd = userJoinedYmd;
-        this.userGender = userGender;
-        this.userAge = userAge;
-        this.userFamilyCounts = userFamilyCounts;
-    }
+    };
 
         @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

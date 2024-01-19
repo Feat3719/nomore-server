@@ -1,9 +1,9 @@
-package com.kimoi.nomore.repository;
+// package com.kimoi.nomore.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.kimoi.nomore.domain.OrderDtls;
+// import com.kimoi.nomore.domain.OrderDtls;
 
-public interface OrderDtlsRepository extends JpaRepository<OrderDtls, String>{
+// public interface OrderDtlsRepository extends JpaRepository<OrderDtls, String>{
     
-}
+// }
