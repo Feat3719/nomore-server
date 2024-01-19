@@ -1,4 +1,4 @@
-package com.kimoi.nomore.domain;
+package com.kimoi.nomore.domain.user;
 
 import java.util.Collection;
 import java.util.List;
