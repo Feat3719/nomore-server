@@ -1,6 +1,5 @@
 package com.kimoi.nomore.config.jwt;
 
-import com.kimoi.nomore.config.jwt.TokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
