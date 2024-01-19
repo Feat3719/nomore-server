@@ -16,6 +16,7 @@ public class MainController {
     public Map<String, String> testMethod(@RequestParam Map<String, String> response) {
         response.put("data", "springboot to react");
         return response;
+        
     }
     
     
