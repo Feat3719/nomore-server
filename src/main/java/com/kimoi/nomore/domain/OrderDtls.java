@@ -18,27 +18,27 @@ public class OrderDtls {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ordr_dtls_nm", nullable = false)
-    private String ordr_dtls_nm;
+    private String ordrDtlsNm;
 
     @Column(name = "ordr_pd_nm", nullable = false)
-    private String ordr_pd_nm;
+    private String ordrPdNm;
 
     @Column(name = "ordr_dtls_cnt", nullable = false)
-    private int ordr_dtls_cnt;
+    private int ordrDtlsCnt;
 
     @Column(name = "ordr_dtls_prc", nullable = false)
-    private String ordr_dtls_prc;
+    private int ordrDtlsPrc;
 
     @Builder
     public OrderDtls(
-            String ordr_dtls_nm,
-            String ordr_pd_nm,
-            int ordr_dtls_cnt,
-            String ordr_dtls_prc) {
-        this.ordr_dtls_nm = ordr_dtls_nm;
-        this.ordr_pd_nm = ordr_pd_nm;
-        this.ordr_dtls_cnt = ordr_dtls_cnt;
-        this.ordr_dtls_prc = ordr_dtls_prc;
+            String ordrDtlsNm,
+            String ordrPdNm,
+            int ordrDtlsCnt,
+            int ordrDtlsPrc) {
+        this.ordrDtlsNm = ordrDtlsNm;
+        this.ordrPdNm = ordrPdNm;
+        this.ordrDtlsCnt = ordrDtlsCnt;
+        this.ordrDtlsPrc = ordrDtlsPrc;
     }
 
 }

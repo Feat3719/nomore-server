@@ -1,5 +1,9 @@
 package com.kimoi.nomore.domain;
 
+import java.time.LocalDate;
+
+import org.springframework.data.annotation.CreatedDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,33 +21,34 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ordr_nm", nullable = false)
-    private String ordr_nm;
+    @Column(name = "ordr_id", nullable = false) // 주문번호
+    private Long ordrId;
 
-    @Column(name = "ordr_mbr_id", nullable = false)
-    private String ordr_mbr_id;
+    @Column(name = "ordr_mbr_id", nullable = false) // 주문회원아이디
+    private String ordrMbrId;
 
-    @Column(name = "ordr_ymd", nullable = false)
-    private String ordr_ymd;
+    @CreatedDate
+    @Column(name = "ordr_ymd", nullable = false) // 주문일자
+    private LocalDate ordrYmd;
 
-    @Column(name = "ordr_addr", nullable = false)
-    private String ordr_addr;
+    @Column(name = "ordr_addr", nullable = false) // 주문일자
+    private String ordrAddr;
 
-    @Column(name = "ordr_stts", nullable = false)
-    private String ordr_stts;
+    @Column(name = "ordr_stts", nullable = false) // 주문상태
+    private String ordrStts;
 
     @Builder
     public Order(
-            String ordr_nm,
-            String ordr_mbr_id,
-            String ordr_ymd,
-            String ordr_addr,
-            String ordr_stts) {
-        this.ordr_nm = ordr_nm;
-        this.ordr_mbr_id = ordr_mbr_id;
-        this.ordr_ymd = ordr_ymd;
-        this.ordr_addr = ordr_addr;
-        this.ordr_stts = ordr_stts;
+        Long ordrId,
+            String ordrMbrId,
+            LocalDate ordrYmd,
+            String ordrAddr,
+            String ordrStts) {
+        this.ordrId = ordrId;
+        this.ordrMbrId = ordrMbrId;
+        this.ordrYmd = ordrYmd;
+        this.ordrAddr = ordrAddr;
+        this.ordrStts = ordrStts;
     }
 
 }

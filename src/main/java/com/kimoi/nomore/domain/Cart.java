@@ -18,23 +18,23 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_no", nullable = false)
-    private Long cart_no;
+    private Long cartNo;
 
     @Column(name = "cart_user_id", nullable = false)
-    private String cart_user_id;
+    private String cartUserId;
 
     @Column(name = "cart_prod_id", nullable = false)
-    private String cart_prod_id;
+    private String cartProdId;
 
     @Column(name = "cart_count", nullable = false)
-    private int cart_count;
+    private Long cartCount;
 
     @Builder
-    public Cart(Long cart_no, String cart_user_id, String cart_prod_id, int cart_count) {
-        this.cart_no = cart_no;
-        this.cart_user_id = cart_user_id;
-        this.cart_prod_id = cart_prod_id;
-        this.cart_count = cart_count;
+    public Cart(Long cartNo, String cartUserId, String cartProdId, Long cartCount) {
+        this.cartNo = cartNo;
+        this.cartUserId = cartUserId;
+        this.cartProdId = cartProdId;
+        this.cartCount = cartCount;
 
     }
 

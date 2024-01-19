@@ -17,21 +17,21 @@ public class ProdCtgr {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prod_ctgr_id", nullable = false)
-    private String prod_ctgr_id;
+    private Long prodCtgrId;
 
     @Column(name = "prod_ctgr_name", nullable = false)
-    private String prod_ctgr_name;
+    private String prodCtgrName;
 
     @Column(name = "prod_ctgr_code", nullable = false)
-    private String prod_ctgr_code;
+    private String prodCtgrCode;
 
     @Builder
-    public ProdCtgr(String prod_ctgr_id,
-            String prod_ctgr_name,
-            String prod_ctgr_code) {
-        this.prod_ctgr_id = prod_ctgr_id;
-        this.prod_ctgr_name = prod_ctgr_name;
-        this.prod_ctgr_code = prod_ctgr_code;
+    public ProdCtgr(Long prodCtgrId,
+            String prodCtgrName,
+            String prodCtgrCode) {
+        this.prodCtgrId = prodCtgrId;
+        this.prodCtgrName = prodCtgrName;
+        this.prodCtgrCode = prodCtgrCode;
     }
 
 }
