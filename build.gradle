@@ -33,7 +33,6 @@ dependencies {
 
     // EMAIL AUTH //
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-    implementation 'javax.mail:mail:1.4'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	
 
