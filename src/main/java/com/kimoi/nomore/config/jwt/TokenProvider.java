@@ -4,8 +4,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 
+import com.kimoi.nomore.domain.RefreshToken;
 import com.kimoi.nomore.domain.User;
+import com.kimoi.nomore.repository.jwt.RefreshTokenRepository;
+
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,8 +25,10 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Service
 public class TokenProvider {
-
+    
+    public static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(1);
     private final JwtProperties jwtProperties;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public String generateToken(User user, Duration expiredAt) {
         Date now = new Date();
@@ -72,7 +80,20 @@ public class TokenProvider {
                 .getBody();
     }
 
+    // refresh token 생성
+    public String makeRefreshToken(User user) {
+        String refreshToken = this.generateToken(user, REFRESH_TOKEN_DURATION);
+        saveRefreshToken(user.getUserId(), refreshToken);
+        return refreshToken;
+    }
 
+    // refresh token => DB에 저장
+    private void saveRefreshToken(String userId, String newRefreshToken) {
+        RefreshToken refreshtoken = refreshTokenRepository.findByUserId(userId)
+        .map(entity ->entity.update(newRefreshToken))
+        .orElse(new RefreshToken(userId, newRefreshToken));
+        refreshTokenRepository.save(refreshtoken);
+    }
 
 
 

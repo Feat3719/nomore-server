@@ -1,8 +1,10 @@
 package com.kimoi.nomore.domain;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,43 +27,46 @@ public class User implements UserDetails{
     @Id
     @Column(name = "user_id", nullable = false)
     private String userId;
-
+    
     @Column(name = "user_pwd", nullable = false)
     private String userPwd;
 
-    @Column(name = "user_name", nullable = false)
+    @Column(name = "user_name")
     private String userName;
 
     @Column(name = "user_email", nullable = false)
     private String userEmail;
 
-    @Column(name = "user_tel", nullable = false)
+    @Column(name = "user_tel")
     private String userTel;
 
-    @Column(name = "user_address", nullable = false)
+    @Column(name = "user_address")
     private String userAddress;
 
     @Column(name = "user_joined_ymd", nullable = false)
-    private String userJoinedYmd;
+    @CreatedBy
+    private LocalDate userJoinedYmd;
 
-    @Column(name = "user_gender", nullable = false)
+    @Column(name = "user_gender")
     private String userGender;
 
-    @Column(name = "user_age", nullable = false)
+    @Column(name = "user_age")
     private Long userAge;
 
-    @Column(name = "user_family_counts", nullable = false)
+    @Column(name = "user_family_counts")
     private String userFamilyCounts;
 
     @Builder
     public User(
             String userId,
             String userPwd,
-            String userEmail
+            String userEmail,
+            LocalDate userJoinedYmd
             ) {
         this.userId = userId;
         this.userPwd = userPwd;
         this.userEmail = userEmail;
+        this.userJoinedYmd = userJoinedYmd;
     };
 
         @Override

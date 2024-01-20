@@ -1,14 +1,16 @@
-package com.kimoi.nomore.config.jwt;
+package com.kimoi.nomore.config;
+
+import java.time.Duration;
+import java.util.Date;
+import java.util.Map;
+
+import com.kimoi.nomore.config.jwt.JwtProperties;
 
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.Duration;
-import java.util.Date;
-import java.util.Map;
 
 import static java.util.Collections.emptyMap;
 
