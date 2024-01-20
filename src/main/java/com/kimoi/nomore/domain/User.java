@@ -22,12 +22,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User implements UserDetails{
+public class User implements UserDetails {
 
     @Id
     @Column(name = "user_id", nullable = false)
     private String userId;
-    
+
     @Column(name = "user_pwd", nullable = false)
     private String userPwd;
 
@@ -61,15 +61,14 @@ public class User implements UserDetails{
             String userId,
             String userPwd,
             String userEmail,
-            LocalDate userJoinedYmd
-            ) {
+            LocalDate userJoinedYmd) {
         this.userId = userId;
         this.userPwd = userPwd;
         this.userEmail = userEmail;
         this.userJoinedYmd = userJoinedYmd;
     };
 
-        @Override
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("user"));
     }
@@ -80,29 +79,28 @@ public class User implements UserDetails{
     }
 
     @Override
-    public String getPassword(){
+    public String getPassword() {
         return userPwd;
     }
 
     @Override
-    public boolean isAccountNonExpired(){
+    public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
-    public boolean isAccountNonLocked(){
+    public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
-    public boolean isCredentialsNonExpired(){
+    public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
-    public boolean isEnabled(){
+    public boolean isEnabled() {
         return true;
     }
-
 
 }

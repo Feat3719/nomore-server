@@ -1,8 +1,6 @@
 package com.kimoi.nomore.service;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,11 +24,11 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public CreateTokensResponse signIn(UserSignInRequest userSignInRequest){
+    public CreateTokensResponse signIn(UserSignInRequest userSignInRequest) {
         // 아이디와 비밀번호 체크
         User user = this.userRepository.findByUserId(userSignInRequest.getUserId())
-        .orElseThrow(()-> new UsernameNotFoundException("아이디가 존재하지 않습니다."));
-        if (!passwordEncoder.matches(userSignInRequest.getUserPwd(),user.getPassword())) {
+                .orElseThrow(() -> new UsernameNotFoundException("아이디가 존재하지 않습니다."));
+        if (!passwordEncoder.matches(userSignInRequest.getUserPwd(), user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
@@ -38,9 +36,9 @@ public class AuthService {
         String refreshToken = tokenProvider.makeRefreshToken(user);
         String accessToken = tokenProvider.generateToken(user, Duration.ofMinutes(30));
         return CreateTokensResponse.builder()
-            .refreshToken(refreshToken)
-            .accessToken(accessToken)
-            .build();
+                .refreshToken(refreshToken)
+                .accessToken(accessToken)
+                .build();
     }
-    
+
 }
