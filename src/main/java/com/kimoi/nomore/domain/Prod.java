@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 public class Prod {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prod_id", nullable = true) // 상품아이디
     private String prodId;
 
