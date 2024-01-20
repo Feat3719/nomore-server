@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.kimoi.nomore.domain.User;
 import com.kimoi.nomore.dto.user.AddUserRequest;
+import com.kimoi.nomore.dto.user.IsUserIdAvailableRequest;
 import com.kimoi.nomore.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,14 +27,21 @@ public class UserService {
         .userEmail(dto.getUserEmail())
         .build()).getUserId();
     }
+    // 아이디 찾기
     public User findByUserId(String userId){
         return userRepository.findByUserId(userId)
                 .orElseThrow(()-> new IllegalArgumentException("Unexpected user"));
     }
 
+    // 이메일 찾기
     public User findByUserEmail(String email){
         return userRepository.findByUserEmail(email)
                 .orElseThrow(()-> new IllegalArgumentException("Unexpected user"));
+    }
+
+    // 아이디 중복 확인
+    public boolean isUserIdAvailable(IsUserIdAvailableRequest isUserIdAvailableRequest) {
+        return !userRepository.existsByUserId(isUserIdAvailableRequest.getUserId());
     }
 
     

@@ -30,6 +30,7 @@ public class TokenProvider {
     private final JwtProperties jwtProperties;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    // 토큰생성
     public String generateToken(User user, Duration expiredAt) {
         Date now = new Date();
         return makeToken(new Date(now.getTime() + expiredAt.toMillis()),user);

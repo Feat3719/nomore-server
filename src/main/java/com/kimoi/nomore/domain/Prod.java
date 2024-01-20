@@ -18,9 +18,8 @@
 // public class Prod {
 
 //     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
 //     @Column(name = "prod_id", nullable = false) // 상품아이디
-//     private Long prodId;
+//     private String prodId;
 
 //     @Column(name = "prod_name", nullable = false) // 상품이름
 //     private String prodName;
@@ -44,7 +43,7 @@
 //     private String prodDtls;
 
 //     @Builder
-//     public Prod(Long prodId,
+//     public Prod(String prodId,
 //             String prodName,
 //             String prodDscr,
 //             int prodCount,
