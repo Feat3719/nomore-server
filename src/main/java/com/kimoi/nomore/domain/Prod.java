@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -49,31 +48,5 @@ public class Prod {
     @Column(name = "prod_power", nullable = true) // 상품소비전력
     private String prodPower;
 
-    @Builder
-    public Prod(
-            String prodId,
-            String prodName,
-            String prodDscr,
-            int prodCount,
-            int prodPrc,
-            String prodCtcd,
-            String prodImgUrl,
-            String prodDtls,
-            String prodCompany,
-            String prodDate,
-            String prodEnergy,
-            String prodPower) {
-        this.prodId = prodId;
-        this.prodName = prodName;
-        this.prodCount = prodCount;
-        this.prodPrc = prodPrc;
-        this.prodCtcd = prodCtcd;
-        this.prodImgUrl = prodImgUrl;
-        this.prodDtls = prodDtls;
-        this.prodCompany = prodCompany;
-        this.prodDate = prodDate;
-        this.prodEnergy = prodEnergy;
-        this.prodPower = prodPower;
-    }
 
 }

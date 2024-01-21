@@ -68,6 +68,13 @@ public class User implements UserDetails {
         this.userJoinedYmd = userJoinedYmd;
     };
 
+    @Builder
+    public User(
+        String userPwd
+    ) {
+        this.userPwd = userPwd;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("user"));

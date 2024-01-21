@@ -3,6 +3,7 @@ package com.kimoi.nomore.service;
 import java.time.Duration;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +22,14 @@ public class AuthService {
 
     private final TokenProvider tokenProvider;
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
     public CreateTokensResponse signIn(UserSignInRequest userSignInRequest) {
         // 아이디와 비밀번호 체크
         User user = this.userRepository.findByUserId(userSignInRequest.getUserId())
                 .orElseThrow(() -> new UsernameNotFoundException("아이디가 존재하지 않습니다."));
-        if (!passwordEncoder.matches(userSignInRequest.getUserPwd(), user.getPassword())) {
+        if (!bCryptPasswordEncoder.matches(userSignInRequest.getUserPwd(), user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 

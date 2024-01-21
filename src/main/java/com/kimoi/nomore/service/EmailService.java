@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.TemplateEngine;
 import com.kimoi.nomore.dto.email.Email;
-import com.kimoi.nomore.service.UserService;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -30,7 +29,9 @@ public class EmailService {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
-        if (type.equals("password")) userService.SetTempPassword(email.getTo(), authNum);
+        if (type.equals("password")){
+            userService.setTempPassword(email.getTo(), authNum);
+        } 
 
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");

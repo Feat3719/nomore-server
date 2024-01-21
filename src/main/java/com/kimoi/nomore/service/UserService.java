@@ -1,5 +1,7 @@
 package com.kimoi.nomore.service;
 
+import java.time.LocalDate;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +22,13 @@ public class UserService {
 
 
     // 회원가입
-    public String save(AddUserRequest dto) {
-        return userRepository.save(User.builder()
+    public void save(AddUserRequest dto) {
+        userRepository.save(User.builder()
         .userId(dto.getUserId())
         .userPwd(bCryptPasswordEncoder.encode(dto.getUserPwd()))
         .userEmail(dto.getUserEmail())
-        .build()).getUserId();
+        .userJoinedYmd(LocalDate.now())
+        .build());
     }
     // 아이디 찾기
     public User findByUserId(String userId){
@@ -44,5 +47,13 @@ public class UserService {
         return !userRepository.existsByUserId(isUserIdAvailableRequest.getUserId());
     }
 
+    // 비밀번호 찾기(임시 비밀번호 발급 및 설정)
+    public void setTempPassword(String userEmail, String tempPassword) {
+        User user = userRepository.findByUserEmail(userEmail)
+            .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + userEmail));
+
+        user = User.builder().userPwd(bCryptPasswordEncoder.encode(tempPassword)).build();
+        userRepository.save(user);
+    }
     
 }

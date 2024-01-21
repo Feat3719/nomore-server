@@ -59,7 +59,7 @@ public class AuthController {
 
     // 아이디 중복 확인
     @GetMapping("/userid")
-    public ResponseEntity<?> getUserId(@RequestParam IsUserIdAvailableRequest request) {
+    public ResponseEntity<?> getUserId(@RequestBody IsUserIdAvailableRequest request) {
         boolean isAvailable = userService.isUserIdAvailable(request);
 
         return ResponseEntity.ok(isAvailable);
@@ -70,13 +70,10 @@ public class AuthController {
     public ResponseEntity<?> userSignUp(@RequestBody AddUserRequest addUserRequest) {
         userService.save(addUserRequest);
 
-        return ResponseEntity.ok("회원가입 완료");
+        return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 완료");
     }
 
-    // @GetMapping("path")
-    // public SomeData getMethodName(@RequestParam String param) {
-    //     return new SomeData();
-    // }
+
     
 
 }
