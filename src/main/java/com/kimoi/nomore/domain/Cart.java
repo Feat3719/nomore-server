@@ -2,7 +2,10 @@ package com.kimoi.nomore.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -22,8 +25,9 @@ public class Cart {
     @Column(name = "cart_no", nullable = false)
     private String cartNo;
 
-    @Column(name = "cart_user_id", nullable = false)
-    private String cartUserId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_user_id")
+    private User user;
 
     @Column(name = "cart_prod_id", nullable = false)
     private String cartProdId;
@@ -44,11 +48,10 @@ public class Cart {
     }
 
     @Builder
-    public Cart(String cartUserId, String cartProdId, Long cartCount) {
-        this.cartUserId = cartUserId;
+    public Cart(User user, String cartProdId, Long cartCount) {
+        this.user = user;
         this.cartProdId = cartProdId;
         this.cartCount = cartCount;
-
     }
 
 }
