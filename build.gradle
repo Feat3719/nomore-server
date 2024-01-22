@@ -42,7 +42,7 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 
 	// 새로고침 시 코드 반영
-	implementation 'org.springframework.boot:spring-boot-devtools'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	// 테스트 전용 의존성 // 
 	testImplementation 'org.projectlombok:lombok:1.18.30'

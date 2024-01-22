@@ -7,7 +7,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.TemplateEngine;
-import com.kimoi.nomore.dto.email.Email;
+import com.kimoi.nomore.dto.EmailDto.Email;
+import com.kimoi.nomore.dto.EmailDto.EmailPostRequest;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -21,27 +22,22 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
-
-    private final UserService userService;
+    private final AuthService authService;
 
     public String sendMail(Email email, String type) {
         String authNum = createCode();
 
+        if (type.equals("password")) {
+            authService.setTempPassword(email.getTo(), authNum);
+        }
+
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
-        if (type.equals("password")){
-            userService.setTempPassword(email.getTo(), authNum);
-        } 
-
         try {
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-            mimeMessageHelper.setTo(email.getTo()); // 메일 수신자
-            mimeMessageHelper.setSubject(email.getSubject()); // 메일 제목
-            mimeMessageHelper.setText(setContext(authNum, type), true); // 메일 본문 내용, HTML 여부
+            MimeMessageHelper mimeMessageHelper = createMimeMessageHelper(mimeMessage, email.getTo(), email.getSubject(), setContext(authNum, type));
             javaMailSender.send(mimeMessage);
 
             log.info("Success");
-
             return authNum;
 
         } catch (MessagingException e) {
@@ -50,24 +46,45 @@ public class EmailService {
         }
     }
 
-    // 인증번호 및 임시 비밀번호 생성 메서드
+    public void sendAuthEmail(EmailPostRequest emailPostRequest, Email email, String type) {
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = createMimeMessageHelper(mimeMessage, email.getTo(), email.getSubject(), setContext(authService.findUserId(emailPostRequest), type));
+            javaMailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private MimeMessageHelper createMimeMessageHelper(MimeMessage mimeMessage, String to, String subject, String text) throws MessagingException {
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+        mimeMessageHelper.setTo(to);
+        mimeMessageHelper.setSubject(subject);
+        mimeMessageHelper.setText(text, true);
+        return mimeMessageHelper;
+    }
+
     public String createCode() {
         Random random = new Random();
-        StringBuffer key = new StringBuffer();
+        StringBuilder key = new StringBuilder();
 
         for (int i = 0; i < 8; i++) {
             int index = random.nextInt(4);
 
             switch (index) {
-                case 0: key.append((char) ((int) random.nextInt(26) + 97)); break;
-                case 1: key.append((char) ((int) random.nextInt(26) + 65)); break;
-                default: key.append(random.nextInt(9));
+                case 0:
+                    key.append((char) (random.nextInt(26) + 97));
+                    break;
+                case 1:
+                    key.append((char) (random.nextInt(26) + 65));
+                    break;
+                default:
+                    key.append(random.nextInt(9));
             }
         }
         return key.toString();
     }
 
-    // thymeleaf를 통한 html 적용
     public String setContext(String code, String type) {
         Context context = new Context();
         context.setVariable("code", code);

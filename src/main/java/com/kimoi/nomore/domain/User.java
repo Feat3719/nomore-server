@@ -50,8 +50,8 @@ public class User implements UserDetails {
     @Column(name = "user_gender")
     private String userGender;
 
-    @Column(name = "user_age")
-    private Long userAge;
+    @Column(name = "user_birth")
+    private String userBirth;
 
     @Column(name = "user_family_counts")
     private String userFamilyCounts;
@@ -67,13 +67,12 @@ public class User implements UserDetails {
         this.userEmail = userEmail;
         this.userJoinedYmd = userJoinedYmd;
     };
-
-    @Builder
-    public User(
-        String userPwd
-    ) {
-        this.userPwd = userPwd;
+   
+    // 비밀번호 찾기 => 비밀번호 초기화 및 재설정 관련 메소드
+    public void updatePassword(String newPassword) {
+        this.userPwd = newPassword;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -109,5 +108,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 
 }

@@ -20,7 +20,7 @@ import com.kimoi.nomore.config.JwtFactory;
 import com.kimoi.nomore.config.jwt.JwtProperties;
 import com.kimoi.nomore.domain.RefreshToken;
 import com.kimoi.nomore.domain.User;
-import com.kimoi.nomore.dto.jwt.CreateAccessTokenRequest;
+import com.kimoi.nomore.dto.TokenDto.CreateAccessTokenRequest;
 import com.kimoi.nomore.repository.UserRepository;
 import com.kimoi.nomore.repository.jwt.RefreshTokenRepository;
 

@@ -24,7 +24,7 @@ public class Prod {
     @Column(name = "prod_count", nullable = true) // 상품수량
     private int prodCount;
 
-    @Column(name = " prod_prc", nullable = true) // 상품가격
+    @Column(name = "prod_prc", nullable = true) // 상품가격
     private int prodPrc;
 
     @Column(name = "prod_ctcd", nullable = true) // 상품분류코드

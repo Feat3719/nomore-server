@@ -15,11 +15,11 @@ import lombok.Getter;
 public class BuyDtls {
 
     @Id
-    @Column(name = "buy_dtls_nm", nullable = false)
-    private String buyDtlsNm;
-
     @Column(name = "buy_pd_nm", nullable = false)
     private String buyPdNm;
+
+    @Column(name = "buy_dtls_nm", nullable = false)
+    private String buyDtlsNm;
 
     @Column(name = "buy_dtls_cnt", nullable = false)
     private int buyDtlsCnt;
