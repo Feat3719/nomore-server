@@ -12,6 +12,8 @@ import com.kimoi.nomore.config.jwt.TokenProvider;
 import com.kimoi.nomore.domain.RefreshToken;
 import com.kimoi.nomore.domain.User;
 import com.kimoi.nomore.dto.UserDto.UserSignInRequest;
+import com.kimoi.nomore.dto.UserDto.VerifyPassword;
+import com.kimoi.nomore.dto.exception.ErrorMessage;
 import com.kimoi.nomore.dto.EmailDto.EmailPostRequest;
 import com.kimoi.nomore.dto.TokenDto.CreateTokensResponse;
 import com.kimoi.nomore.dto.TokenDto.GetRefreshToken;
@@ -43,11 +45,8 @@ public class AuthService {
     @Transactional
     public CreateTokensResponse signIn(UserSignInRequest userSignInRequest) {
         // 아이디와 비밀번호 체크
-        User user = this.userRepository.findByUserId(userSignInRequest.getUserId())
-                .orElseThrow(() -> new UsernameNotFoundException("아이디가 존재하지 않습니다."));
-        if (!bCryptPasswordEncoder.matches(userSignInRequest.getUserPwd(), user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-        }
+        User user = this.findByUserId(userSignInRequest.getUserId());
+        this.verifyPassword(user, userSignInRequest.getUserPwd());
 
         // Refresh Token 발급 + DB에 저장
         String refreshToken = tokenProvider.makeRefreshToken(user);
@@ -74,19 +73,19 @@ public class AuthService {
     // 아이디로 회원 찾기
     public User findByUserId(String userId) {
         return userRepository.findByUserId(userId)
-                .orElseThrow(() -> new NotFoundErrorException("Unexpected user"));
+                .orElseThrow(() -> new NotFoundErrorException(ErrorMessage.USER_NOT_FOUND));
     }
 
     // 이메일로 회원 찾기
     private User findByUserEmail(String email) {
         return userRepository.findByUserEmail(email)
-                .orElseThrow(() -> new NotFoundErrorException("Unexpected user"));
+                .orElseThrow(() -> new NotFoundErrorException(ErrorMessage.USER_NOT_FOUND));
     }
 
     // RefreshToken 찾기
     private RefreshToken findRefreshToken(String refreshToken) {
         return refreshTokenRepository.findByRefreshToken(refreshToken)
-                .orElseThrow(() -> new NotFoundErrorException("리프레시 토큰을 찾을 수 없음"));
+                .orElseThrow(() -> new NotFoundErrorException(ErrorMessage.REFRESH_TOKEN_NOT_FOUND));
 
     }
 
@@ -94,7 +93,14 @@ public class AuthService {
     private User findUserByRefreshToken(String refreshToken) {
         return userRepository
                 .findByUserId(refreshTokenRepository.findByRefreshToken(refreshToken).get().getUserId())
-                .orElseThrow(() -> new NotFoundErrorException("리프레시 토큰을 찾을 수 없음"));
+                .orElseThrow(() -> new NotFoundErrorException(ErrorMessage.REFRESH_TOKEN_NOT_FOUND));
+    }
+
+    // 비밀번호 검증
+    private void verifyPassword(User user, String pwd) {
+        if (!bCryptPasswordEncoder.matches(pwd, user.getPassword())) {
+            throw new NotFoundErrorException(ErrorMessage.PASSWORD_MISMATCH);
+        }
     }
 
     // 아이디 중복 확인
@@ -114,8 +120,7 @@ public class AuthService {
     // 비밀번호 찾기
     public FindUserPwdRequest findUserPwd(FindUserPwdRequest findUserPwdRequest) {
         // 아이디 체크
-        User user = userRepository.findByUserId(findUserPwdRequest.getUserId())
-                .orElseThrow(() -> new NotFoundErrorException("해당 아이디가 존재하지 않습니다."));
+        User user = this.findByUserId(findUserPwdRequest.getUserId());
         // 이메일 체크
         if (user.getUserEmail().equals(findUserPwdRequest.getUserEmail())) {
             return findUserPwdRequest;
@@ -134,7 +139,7 @@ public class AuthService {
     // 로그아웃
     public void userSignOut(GetRefreshToken request) {
         RefreshToken refreshToken = this.findRefreshToken(request.getRefreshToken());
-    
+
         if (refreshToken != null) {
             refreshTokenRepository.delete(refreshToken);
         } else {
@@ -145,9 +150,10 @@ public class AuthService {
     // 회원 탈퇴
     @Transactional
     public void deleteUser(DeleteUserRequest request) {
-
         String userId = this.findUserByRefreshToken(request.getRefreshToken()).getUserId();
-        cartRepository.deleteAllByCartUserId(userId);
+        this.verifyPassword(this.findByUserId(userId), request.getUserPwd());
+
+        cartRepository.deleteAllByUserId(userId);
         buyRepository.deleteAllByBuyMbrId(userId);
         refreshTokenRepository.deleteByUserId(userId);
     }

@@ -49,6 +49,12 @@ public class UserDto {
     }
 
 
+    // 비밀번호 검증 UserDto
+    @Getter
+    public class VerifyPassword {
+        private String userPwd;
+    }
+
     // 회원탈퇴 UserDto
     @Getter
     public class DeleteUserRequest {
