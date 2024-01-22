@@ -3,6 +3,7 @@ package com.kimoi.nomore.domain;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -50,11 +52,17 @@ public class User implements UserDetails {
     @Column(name = "user_gender")
     private String userGender;
 
-    @Column(name = "user_age")
-    private Long userAge;
+    @Column(name = "user_birth")
+    private String userBirth;
 
     @Column(name = "user_family_counts")
     private String userFamilyCounts;
+
+    @OneToMany(mappedBy = "user")
+    private List<Cart> carts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Buy> buys = new ArrayList<>();
 
     @Builder
     public User(

@@ -31,4 +31,6 @@ public class WashDtls {
     @Column(name = "dtls_kstwo", nullable = true) // 안전확인인증
     private String dtlsKstwo;
 
+    // @OneToMany(mappedBy = "washDtls")
+    // private List<Prod> prods = new ArrayList<>();
 }

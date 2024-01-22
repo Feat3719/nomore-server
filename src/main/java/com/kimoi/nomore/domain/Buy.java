@@ -1,12 +1,18 @@
 package com.kimoi.nomore.domain;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.data.annotation.CreatedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -27,8 +33,10 @@ public class Buy {
     @Column(name = "buy_id", nullable = false) // 주문번호
     private String buyId;
 
-    @Column(name = "buy_mbr_id", nullable = false) // 주문회원아이디
-    private String buyMbrId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "buy_mbr_id") // 주문회원아이디
+    private User user;
+    // private String buyMbrId;
 
     @CreatedDate
     @Column(name = "buy_ymd", nullable = false) // 주문일자
@@ -50,13 +58,16 @@ public class Buy {
         this.buyId = datePart + uuidPart;
     }
 
+    @OneToMany(mappedBy = "buy")
+    private List<BuyDtls> buyDtlses = new ArrayList<>();
+
     @Builder
     public Buy(
-            String buyMbrId,
+            User user,
             LocalDate buyYmd,
             String buyAddr,
             String buyStts) {
-        this.buyMbrId = buyMbrId;
+        this.user = user;
         this.buyYmd = buyYmd;
         this.buyAddr = buyAddr;
         this.buyStts = buyStts;

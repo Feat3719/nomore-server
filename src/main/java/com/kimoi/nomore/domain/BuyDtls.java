@@ -3,8 +3,13 @@ package com.kimoi.nomore.domain;
 import org.hibernate.annotations.Immutable;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.FetchType;
+
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
@@ -14,12 +19,17 @@ import lombok.Getter;
 @Immutable
 public class BuyDtls {
 
-    @Id
-    @Column(name = "buy_dtls_nm", nullable = false)
-    private String buyDtlsNm;
+    @EmbeddedId
+    private BuyDtlsId id;
 
-    @Column(name = "buy_pd_nm", nullable = false)
-    private String buyPdNm;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("buyPdNm")
+    @JoinColumn(name = "buy_pd_nm")
+    private Prod prod;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "buy_dtls_nm")
+    private Buy buy;
 
     @Column(name = "buy_dtls_cnt", nullable = false)
     private int buyDtlsCnt;

@@ -1,8 +1,12 @@
 package com.kimoi.nomore.domain;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -21,6 +25,9 @@ public class ProdCtgr {
 
     @Column(name = "prod_ctgr_name", nullable = false)
     private String prodCtgrName;
+
+    @OneToMany(mappedBy = "prodCtgr")
+    private List<Prod> Pords = new ArrayList<>();
 
     @Builder
     public ProdCtgr(
