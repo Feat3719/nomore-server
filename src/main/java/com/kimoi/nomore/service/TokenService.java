@@ -18,7 +18,6 @@ public class TokenService {
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
 
-
     // 엑세스 토큰 발급
     public String createNewAccessToken(String refreshToken) {
         if (!tokenProvider.validToken(refreshToken)) {

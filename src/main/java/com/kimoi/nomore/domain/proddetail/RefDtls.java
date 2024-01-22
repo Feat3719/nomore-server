@@ -2,15 +2,9 @@ package com.kimoi.nomore.domain.proddetail;
 
 import org.hibernate.annotations.Immutable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.kimoi.nomore.domain.Prod;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
@@ -35,8 +29,5 @@ public class RefDtls {
 
     @Column(name = "dtls_kstwo", nullable = true) // 안전확인인증
     private String dtlsKstwo;
-
-    // @OneToMany(mappedBy = "refDtls")
-    // private List<Prod> prods = new ArrayList<>();
 
 }

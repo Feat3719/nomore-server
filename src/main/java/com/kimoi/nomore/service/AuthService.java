@@ -134,7 +134,7 @@ public class AuthService {
     // 로그아웃
     public void userSignOut(GetRefreshToken request) {
         RefreshToken refreshToken = this.findRefreshToken(request.getRefreshToken());
-    
+
         if (refreshToken != null) {
             refreshTokenRepository.delete(refreshToken);
         } else {
@@ -147,8 +147,8 @@ public class AuthService {
     public void deleteUser(DeleteUserRequest request) {
 
         String userId = this.findUserByRefreshToken(request.getRefreshToken()).getUserId();
-        cartRepository.deleteAllByCartUserId(userId);
-        buyRepository.deleteAllByBuyMbrId(userId);
+        cartRepository.deleteAllByUser_UserId(userId);
+        buyRepository.deleteAllByUser_UserId(userId);
         refreshTokenRepository.deleteByUserId(userId);
     }
 }

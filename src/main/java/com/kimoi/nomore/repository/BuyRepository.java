@@ -8,5 +8,5 @@ import jakarta.transaction.Transactional;
 
 public interface BuyRepository extends JpaRepository<Buy, String> {
     @Transactional
-    void deleteAllByBuyMbrId(String buyMbrId);
+    void deleteAllByUser_UserId(String userId);
 }

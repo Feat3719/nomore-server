@@ -31,8 +31,8 @@ public class BuyDtls {
     @JoinColumn(name = "buy_dtls_nm")
     private Buy buy;
 
-    @Column(name = "buy_dtls_nm", nullable = false)
-    private String buyDtlsNm;
+    // @Column(name = "buy_dtls_nm", nullable = false)
+    // private String buyDtlsNm;
 
     @Column(name = "buy_dtls_cnt", nullable = false)
     private int buyDtlsCnt;

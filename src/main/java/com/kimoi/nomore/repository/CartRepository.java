@@ -8,6 +8,5 @@ import jakarta.transaction.Transactional;
 
 public interface CartRepository extends JpaRepository<Cart, String> {
     @Transactional
-    void deleteAllByCartUserId(String cartUserId);
- 
+    void deleteAllByUser_UserId(String userId);
 }
