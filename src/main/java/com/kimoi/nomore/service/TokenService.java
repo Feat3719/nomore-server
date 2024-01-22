@@ -14,10 +14,10 @@ import java.time.Duration;
 @Service
 public class TokenService {
 
+    private final AuthService authService;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    private final UserService userService;
 
     // 엑세스 토큰 발급
     public String createNewAccessToken(String refreshToken) {
@@ -25,7 +25,7 @@ public class TokenService {
             throw new IllegalArgumentException("유효한 토큰이 아닙니다.");
         }
         String userId = this.findByRefreshToken(refreshToken).getUserId();
-        User user = userService.findByUserId(userId);
+        User user = authService.findByUserId(userId);
 
         return tokenProvider.generateToken(user, Duration.ofMinutes(30));
     }

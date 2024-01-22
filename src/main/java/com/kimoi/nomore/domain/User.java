@@ -75,6 +75,12 @@ public class User implements UserDetails {
         this.userEmail = userEmail;
         this.userJoinedYmd = userJoinedYmd;
     };
+   
+    // 비밀번호 찾기 => 비밀번호 초기화 및 재설정 관련 메소드
+    public void updatePassword(String newPassword) {
+        this.userPwd = newPassword;
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -110,5 +116,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 
 }
