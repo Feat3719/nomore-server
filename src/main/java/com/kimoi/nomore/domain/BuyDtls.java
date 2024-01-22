@@ -23,7 +23,7 @@ public class BuyDtls {
     private BuyDtlsId id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("buyDtlsNm")
+    @MapsId("buyPdNm")
     @JoinColumn(name = "buy_pd_nm")
     private Prod prod;
 
