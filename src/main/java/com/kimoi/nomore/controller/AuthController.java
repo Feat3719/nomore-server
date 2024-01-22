@@ -84,7 +84,7 @@ public class AuthController {
     // 회원 탈퇴
     @DeleteMapping("/user")
     public ResponseEntity<?> deleteUser(@RequestBody DeleteUserRequest request) {
-        
+        authService.deleteUser(request);
         return ResponseEntity.status(HttpStatus.OK).body("SUCCESS : SignOut");
     }
 
