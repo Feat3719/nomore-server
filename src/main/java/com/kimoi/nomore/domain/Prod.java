@@ -24,7 +24,7 @@ import lombok.Setter;
 public class Prod {
 
     @Id
-    @Column(name = "prod_id", nullable = true) // 상품아이디
+    @Column(name = "prod_id", nullable = false) // 상품아이디
     private String prodId;
 
     @Column(name = "prod_name", nullable = true) // 상품이름

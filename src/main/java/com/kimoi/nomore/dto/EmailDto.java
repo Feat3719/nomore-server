@@ -17,7 +17,7 @@ public class EmailDto {
     }
 
     @Getter
-    public class EmailPostRequest {
+    public static class EmailPostRequest {
         private String userEmail;
     }
 

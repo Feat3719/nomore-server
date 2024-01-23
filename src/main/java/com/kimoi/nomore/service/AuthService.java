@@ -2,9 +2,7 @@ package com.kimoi.nomore.service;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Optional;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +10,6 @@ import com.kimoi.nomore.config.jwt.TokenProvider;
 import com.kimoi.nomore.domain.RefreshToken;
 import com.kimoi.nomore.domain.User;
 import com.kimoi.nomore.dto.UserDto.UserSignInRequest;
-import com.kimoi.nomore.dto.UserDto.VerifyPassword;
 import com.kimoi.nomore.dto.exception.ErrorMessage;
 import com.kimoi.nomore.dto.EmailDto.EmailPostRequest;
 import com.kimoi.nomore.dto.TokenDto.CreateTokensResponse;

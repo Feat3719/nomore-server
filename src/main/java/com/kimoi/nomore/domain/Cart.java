@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Table(name = "CART")
 @Getter
@@ -30,7 +31,8 @@ public class Cart {
     private User user;
 
     @Column(name = "cart_count", nullable = false)
-    private Long cartCount;
+    @Setter
+    private Long cartCount = 0L;
 
     @Builder
     public Cart(User user, String cartUserId, String carProdId, Long cartCount) {
