@@ -2,9 +2,11 @@ package com.kimoi.nomore.domain;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -53,10 +55,13 @@ public class User implements UserDetails {
     private String userGender;
 
     @Column(name = "user_birth")
-    private String userBirth;
+    private LocalDate userBirth;
 
     @Column(name = "user_family_counts")
     private String userFamilyCounts;
+
+    @Column(name = "money")
+    private Integer money;
 
     @OneToMany(mappedBy = "user")
     private List<Cart> carts = new ArrayList<>();
