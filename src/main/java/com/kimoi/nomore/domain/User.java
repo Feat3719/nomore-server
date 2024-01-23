@@ -53,7 +53,7 @@ public class User implements UserDetails {
     private String userGender;
 
     @Column(name = "user_birth")
-    private String userBirth;
+    private LocalDate userBirth;
 
     @Column(name = "user_family_counts")
     private String userFamilyCounts;

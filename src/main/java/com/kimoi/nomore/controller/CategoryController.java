@@ -1,30 +1,46 @@
-// package com.kimoi.nomore.controller;
+package com.kimoi.nomore.controller;
 
-// import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestController;
 
-// import com.kimoi.nomore.service.CategoryService;
-// import org.springframework.web.bind.annotation.RequestParam;
-// import org.springframework.web.bind.annotation.GetMapping;
+import com.kimoi.nomore.domain.Prod;
+import com.kimoi.nomore.service.CategoryService;
 
-// @RestController
-// public class CategoryController {
+import lombok.RequiredArgsConstructor;
 
-// private final CategoryService categoryService;
+import org.springframework.web.bind.annotation.RequestParam;
 
-// public CategoryController(CategoryService categoryService) {
-// this.categoryService = categoryService;
-// }
+import java.util.List;
 
-// // ranked : 1 categories/
-// @GetMapping("api/category")
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-// public String Category(
-// @RequestParam String categoryId,
-// @RequestParam(defaultValue = "1") int page,
-// @RequestParam(defaultValue = "1") int ranked) {
+@RequestMapping("/api/category")
+@RequiredArgsConstructor // 생성자를 자동으로 생성
+@RestController
+public class CategoryController {
 
-// return categoryService.getAllProd(categoryId, page, ranked);
+    private final CategoryService categoryService;
 
-// }
+    // ranked : 1 categories/
+    @GetMapping("")
+    public List<Prod> Category(
+            @RequestParam(name = "categoryId", defaultValue = "C001") String prodCtcd,
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "orderType", defaultValue = "ASC") String orderType,
+            @RequestParam(name = "size", defaultValue = "60") int size,
+            @RequestParam(name = "sorter", defaultValue = "prod_energy") String sorter) {
 
-// }
+        return categoryService.findByProdCtcdList(prodCtcd, page, orderType, size, sorter);
+    }
+
+    // 상세페이지로 이동 Controller, prodId, proddtls, categoryId, isAddedCart,
+    // @GetMapping("/item")
+    // public List<Prod> DetailPage(
+    // @RequestParam(name = "category") String prodCtcd,
+    // @RequestParam(name = "page", defaultValue = "1") int page,
+    // @RequestParam(name = "ProductId") String prodId
+    // ) {
+    // return
+    // }
+
+}

@@ -17,6 +17,10 @@ configurations {
 	}
 }
 
+compileJava {
+    options.compilerArgs += ['-parameters']
+}
+
 repositories {
 	mavenCentral()
 }
@@ -26,6 +30,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.projectlombok:lombok:1.18.30'
+	implementation 'org.springframework.boot:spring-boot-devtools'
+
 
 	// JWT //
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
@@ -35,9 +41,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	
+	// JDBC
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-
 	annotationProcessor 'org.projectlombok:lombok:1.18.30'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 
