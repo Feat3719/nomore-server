@@ -1,7 +1,6 @@
 package com.kimoi.nomore.service;
 
 import java.time.Duration;
-import java.time.LocalDate;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -61,7 +60,6 @@ public class AuthService {
                 .userId(dto.getUserId())
                 .userPwd(bCryptPasswordEncoder.encode(dto.getUserPwd()))
                 .userEmail(dto.getUserEmail())
-                .userJoinedYmd(LocalDate.now())
                 .build();
 
         userRepository.save(user);
@@ -94,7 +92,7 @@ public class AuthService {
     }
 
     // 비밀번호 검증
-    private void verifyPassword(User user, String pwd) {
+    public void verifyPassword(User user, String pwd) {
         if (!bCryptPasswordEncoder.matches(pwd, user.getPassword())) {
             throw new NotFoundErrorException(ErrorMessage.PASSWORD_MISMATCH);
         }

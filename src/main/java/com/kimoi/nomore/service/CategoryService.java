@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.kimoi.nomore.domain.Prod;
-import com.kimoi.nomore.dto.ProdDto;
 import com.kimoi.nomore.repository.jdbctemplate.JdbcProdRepository;
 
 import lombok.RequiredArgsConstructor;

@@ -1,13 +1,10 @@
 package com.kimoi.nomore.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.NoTransactionException;
 
 import com.kimoi.nomore.domain.Cart;
 import com.kimoi.nomore.domain.Prod;
@@ -21,7 +18,6 @@ import com.kimoi.nomore.dto.UserDto.RemoveItemRequest;
 import com.kimoi.nomore.exception.NotFoundErrorException;
 import com.kimoi.nomore.repository.CartRepository;
 import com.kimoi.nomore.repository.ProdRepository;
-import com.kimoi.nomore.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,11 +29,12 @@ public class CartService {
     private final CartRepository cartRepository;
     private final ProdRepository prodRepository;
     private final AuthService authService;
+    private final ProdService prodService;
 
     // 장바구니 추가
     @Transactional
     public void addItem(AddToCartRequest request) {
-        Prod product = findProductByProdId(request.getProdId());
+        Prod product = prodService.findProductByProdId(request.getProdId());
         User user = authService.findByUserId(request.getUserId());
         Cart cart = this.createCart(user, user.getUserId(), product.getProdId(), request.getCartCount());
         cartRepository.save(cart);
@@ -98,17 +95,16 @@ public class CartService {
         }
     }
 
-    // 상품아이디로 상품 찾기
-    private Prod findProductByProdId(String prodId) {
-        return prodRepository.findByProdId(prodId)
-                .orElseThrow(() -> new NotFoundErrorException("해당하는 상품이 없습니다."));
-    }
-
     // 장바구니 생성
     private Cart createCart(User user, String cartUserId, String carProdId, Long cartCount) {
         if (cartCount == null) {
             cartCount = 1L; // 기본값 설정
         }
         return new Cart(user, cartUserId, carProdId, cartCount);
+    }
+
+    // 장바구니 조회
+    public List<Cart> getCart(String userId) {
+        return cartRepository.findAllByCartId_CartUserId(userId);
     }
 }

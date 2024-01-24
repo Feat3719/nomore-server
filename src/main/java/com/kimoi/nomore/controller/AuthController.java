@@ -3,8 +3,10 @@ package com.kimoi.nomore.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kimoi.nomore.dto.UserDto.UserSignInRequest;
+import com.kimoi.nomore.exception.SucessException;
 import com.kimoi.nomore.dto.TokenDto.CreateAccessTokenRequest;
 import com.kimoi.nomore.dto.TokenDto.CreateAccessTokenResponse;
+import com.kimoi.nomore.dto.TokenDto.CreateTokensResponse;
 import com.kimoi.nomore.dto.TokenDto.GetRefreshToken;
 import com.kimoi.nomore.dto.UserDto.CreateUserRequest;
 import com.kimoi.nomore.dto.UserDto.DeleteUserRequest;
@@ -44,8 +46,9 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> userSignIn(@RequestBody UserSignInRequest userSignInRequest,
             HttpServletResponse response) {
-        String refreshToken = authService.signIn(userSignInRequest).getRefreshToken();
-        String accessToken = authService.signIn(userSignInRequest).getAccessToken();
+        CreateTokensResponse tokensResponse = authService.signIn(userSignInRequest);
+        String refreshToken = tokensResponse.getRefreshToken();
+        String accessToken = tokensResponse.getAccessToken();
         ResponseCookie cookie = ResponseCookie
                 .from("refreshToken", refreshToken)
                 .path("/")
@@ -71,21 +74,21 @@ public class AuthController {
     public ResponseEntity<?> userSignUp(@RequestBody CreateUserRequest addUserRequest) {
         authService.save(addUserRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("SUCCESS : Sign Up Completed");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new SucessException("SUCCESS : SignUp"));
     }
 
     // 로그아웃
     @PostMapping("/signout")
     public ResponseEntity<?> userSignOut(@RequestBody GetRefreshToken request) {
         authService.userSignOut(request);
-        return ResponseEntity.status(HttpStatus.OK).body("SUCCESS : SignOut");
+        return ResponseEntity.status(HttpStatus.OK).body(new SucessException("SUCCESS : SignOut"));
     }
 
     // 회원 탈퇴
     @DeleteMapping("/user")
     public ResponseEntity<?> deleteUser(@RequestBody DeleteUserRequest request) {
         authService.deleteUser(request);
-        return ResponseEntity.status(HttpStatus.OK).body("SUCCESS : SignOut");
+        return ResponseEntity.status(HttpStatus.OK).body(new SucessException("SUCCESS : Withdraw"));
     }
 
 }

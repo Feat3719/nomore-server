@@ -1,13 +1,14 @@
 package com.kimoi.nomore.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
-
-import org.springframework.data.annotation.CreatedDate;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -23,10 +24,14 @@ import lombok.NoArgsConstructor;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Table(name = "BUY")
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 public class Buy {
 
     @Id
@@ -36,13 +41,12 @@ public class Buy {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buy_mbr_id") // 주문회원아이디
     private User user;
-    // private String buyMbrId;
 
     @CreatedDate
     @Column(name = "buy_ymd", nullable = false) // 주문일자
-    private LocalDate buyYmd;
+    private LocalDateTime buyYmd;
 
-    @Column(name = "buy_addr", nullable = false) // 주문일자
+    @Column(name = "buy_addr", nullable = false) // 배송주소
     private String buyAddr;
 
     @Column(name = "buy_stts", nullable = false) // 주문상태
@@ -64,13 +68,13 @@ public class Buy {
     @Builder
     public Buy(
             User user,
-            LocalDate buyYmd,
             String buyAddr,
             String buyStts) {
         this.user = user;
-        this.buyYmd = buyYmd;
+        this.buyYmd = LocalDateTime.now();
         this.buyAddr = buyAddr;
         this.buyStts = buyStts;
+        this.prePersist();
     }
 
 }

@@ -11,7 +11,7 @@ public class ProdDto {
         private String prodId;
         private String prodName;
         private String prodCount;
-        private int prodPrc;
+        private Integer prodPrc;
         private String prodImgUrl;
         private String prodDtls;
         private String prodEnergy;
