@@ -22,7 +22,7 @@ public class CartDto {
         private String prodDtls;
         private String prodName;
         private String prodImgUrl;
-        private int prodPrc;
+        private Integer prodPrc;
         private Long cartCount;
     }
 

@@ -1,13 +1,13 @@
 package com.kimoi.nomore.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +21,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Table(name = "USER")
 @Getter
@@ -36,7 +37,7 @@ public class User implements UserDetails {
     private String userPwd;
 
     @Column(name = "user_name")
-    private String userName;
+    private String userNickName;
 
     @Column(name = "user_email", nullable = false)
     private String userEmail;
@@ -50,6 +51,10 @@ public class User implements UserDetails {
     @Column(name = "user_joined_ymd", nullable = false)
     @CreatedBy
     private LocalDate userJoinedYmd;
+
+    @LastModifiedDate
+    @Column(name = "user_updated_ymd")
+    private LocalDateTime updatedYmd;
 
     @Column(name = "user_gender")
     private String userGender;
@@ -81,10 +86,33 @@ public class User implements UserDetails {
         this.userJoinedYmd = userJoinedYmd;
     };
 
+    public void setUser(
+            String userPwd,
+            String userNickName,
+            String userTel,
+            String userAddress,
+            String userGender,
+            LocalDate userBirth,
+            String userFamilyCounts) {
+
+        this.userPwd = userPwd;
+        this.userNickName = userNickName;
+        this.userTel = userTel;
+        this.userAddress = userAddress;
+        this.userGender = userGender;
+        this.userBirth = userBirth;
+        this.userFamilyCounts = userFamilyCounts;
+    };
+
     // 비밀번호 찾기 => 비밀번호 초기화 및 재설정 관련 메소드
     public void updatePassword(String newPassword) {
         this.userPwd = newPassword;
     }
+
+    // 유저 재화 setter
+    public void setUserMoney(Integer userMoney) {
+        this.userMoney = userMoney;
+    };
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

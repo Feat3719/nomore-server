@@ -11,7 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,10 +29,10 @@ public class Prod {
     private String prodName;
 
     @Column(name = "prod_count", nullable = true) // 상품수량
-    private int prodCount;
+    private Integer prodCount;
 
     @Column(name = "prod_prc", nullable = true) // 상품가격
-    private int prodPrc;
+    private Integer prodPrc;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "prod_ctcd") // 상품분류코드
