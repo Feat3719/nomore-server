@@ -60,8 +60,8 @@ public class User implements UserDetails {
     @Column(name = "user_family_counts")
     private String userFamilyCounts;
 
-    @Column(name = "money")
-    private Integer money;
+    @Column(name = "user_money")
+    private Integer userMoney;
 
     @OneToMany(mappedBy = "user")
     private List<Cart> carts = new ArrayList<>();
