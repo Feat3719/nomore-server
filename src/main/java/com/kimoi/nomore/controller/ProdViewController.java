@@ -2,14 +2,15 @@ package com.kimoi.nomore.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kimoi.nomore.domain.Prod;
-import com.kimoi.nomore.service.CategoryService;
+import com.kimoi.nomore.dto.ProdDto;
+import com.kimoi.nomore.service.ProdViewService;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/category")
 @RequiredArgsConstructor // 생성자를 자동으로 생성
 @RestController
-public class CategoryController {
+public class ProdViewController {
 
-    private final CategoryService categoryService;
+    private final ProdViewService categoryService;
 
-    // ranked : 1 categories/
+    // 카테고리 입장
     @GetMapping("")
-    public List<Prod> Category(
+    public List<ProdDto.ProductViewRequest> getProductsByCategory(
             @RequestParam(name = "categoryId", defaultValue = "C001") String prodCtcd,
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "orderType", defaultValue = "ASC") String orderType,
@@ -33,14 +34,13 @@ public class CategoryController {
         return categoryService.findByProdCtcdList(prodCtcd, page, orderType, size, sorter);
     }
 
-    // 상세페이지로 이동 Controller, prodId, proddtls, categoryId, isAddedCart,
-    // @GetMapping("/item")
-    // public List<Prod> DetailPage(
-    // @RequestParam(name = "category") String prodCtcd,
-    // @RequestParam(name = "page", defaultValue = "1") int page,
-    // @RequestParam(name = "ProductId") String prodId
-    // ) {
-    // return
-    // }
+    // 상세페이지로
+    @GetMapping("/product")
+    public List<Map<String, Object>> DetailPage(
+            @RequestParam(name = "category") String prodCtcd,
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "ProductId") String prodId) {
+        return categoryService.findByProdDetail(prodCtcd, page, prodId);
+    }
 
 }

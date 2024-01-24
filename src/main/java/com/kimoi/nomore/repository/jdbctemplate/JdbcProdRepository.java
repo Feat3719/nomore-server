@@ -6,21 +6,23 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.kimoi.nomore.domain.Prod;
+import com.kimoi.nomore.dto.ProdDto;
 
 @Repository
 public class JdbcProdRepository {
 
-    private final NamedParameterJdbcTemplate jdbctemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcProdRepository(DataSource dataSource) {
-        this.jdbctemplate = new NamedParameterJdbcTemplate(dataSource);
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public List<Prod> findByEnergyWithPagination(
+    public List<ProdDto.ProductViewRequest> findByEnergyWithPagination(
             String prodCtcd,
             int page,
             String orderType,
@@ -28,66 +30,37 @@ public class JdbcProdRepository {
             String sorter) {
         String sql = "SELECT prod_id, prod_name, prod_count, prod_prc, prod_img_url, prod_dtls, prod_energy " +
                 "FROM prod " +
-                "Where prod_ctcd = :prodCtcd " +
-                "ORDER BY " + sorter.toUpperCase() + " " + orderType.toUpperCase() + " LIMIT :limit OFFSET :offset ";
-
-        int limit = size;
-        int offset = (page - 1) * size;
+                "WHERE prod_ctcd = :prodCtcd " +
+                "ORDER BY " + sorter.toUpperCase() + " " + orderType + " LIMIT :limit OFFSET :offset";
 
         Map<String, Object> params = Map.of(
                 "prodCtcd", prodCtcd,
-                "page", page,
-                "limit", limit,
-                "offset", offset);
+                "limit", size,
+                "offset", (page - 1) * size);
 
-        System.out.println(orderType);
-        return jdbctemplate.query(sql, params, ctlsRowMapper());
-
+        return jdbcTemplate.query(sql, params, ctlsRowMapper());
     }
 
-    private RowMapper<Prod> ctlsRowMapper() {
-        return (rs, rowNum) -> {
-            Prod prod = new Prod();
-            prod.setProdId(rs.getString("prod_id"));
-            prod.setProdName(rs.getString("prod_name"));
-            prod.setProdCount(rs.getInt("prod_count"));
-            prod.setProdPrc(rs.getInt("prod_prc"));
-            prod.setProdImgUrl(rs.getString("prod_img_url"));
-            prod.setProdDtls(rs.getString("prod_dtls"));
-            prod.setProdEnergy(rs.getString("prod_energy"));
-            // 상품분류코드(prodCtgr)와 구매상세(buyDtlses)는 여기에서 처리하지 않습니다.
-            return prod;
-        };
+    private RowMapper<ProdDto.ProductViewRequest> ctlsRowMapper() {
+        return (rs, rowNum) -> ProdDto.ProductViewRequest.builder()
+                .prodId(rs.getString("prod_id"))
+                .prodName(rs.getString("prod_name"))
+                .prodCount(rs.getInt("prod_count"))
+                .prodPrc(rs.getInt("prod_prc"))
+                .prodImgUrl(rs.getString("prod_img_url"))
+                .prodDtls(rs.getString("prod_dtls"))
+                .prodEnergy(rs.getString("prod_energy"))
+                .build();
     }
 
-    // private RowMapper<ProdDto> ctlsRowMapper() {
-    // return (rs, rowNum) -> {
-    // ProdDto prodDto = new ProdDto();
-    // prodDto.setProdId(rs.getString("prod_id"));
-    // prodDto.setProdName(rs.getString("prod_name"));
-    // prodDto.setProdCount(rs.getInt("prod_count"));
-    // prodDto.setProdPrc(rs.getInt("prod_prc"));
-    // prodDto.setProdImgUrl(rs.getString("prod_img_url"));
-    // prodDto.setProdDtls(rs.getString("prod_dtls"));
-    // prodDto.setProdEnergy(rs.getString("prod_energy"));
-    // // 필요한 기타 필드들의 설정
-
-    // return prodDto;
-    // };
-    // }
-
-    // public List<Prod> findByProdDetailList(String dtlsTable, String prodId) {
-    // String sql = "SELECT * " +
-    // " FROM prod p " +
-    // "LEFT JOIN " + dtlsTable + " pt ON p.prod_dtls = dt.dtls_id " +
-    // "WHERE prod_id = :prodId";
-    // Map<String, Object> params = Map.of("prodId", prodId);
-    // return jdbctemplate.query(sql, params, dtlsRowMapper());
-    // }
-
-    // private RowMapper<Prod> dtlsRowMapper() {
-    // return new BeanPropertyRowMapper<>(Prod.class);
-
-    // }
-
+    // 간단한 쿼리 결과 조회를 위한 queryForList
+    public List<Map<String, Object>> findByProductDetailList(
+            String prodcode,
+            String prodId) {
+        String sql = "select * from prod Inner Join " + prodcode + " on(prod_dtls = dtls_id) Where prod_id = :prodId";
+        SqlParameterSource namedParameters = new MapSqlParameterSource("prodId", prodId);
+        List<Map<String, Object>> List = jdbcTemplate.queryForList(sql, namedParameters);
+        System.out.println(List);
+        return List;
+    }
 }

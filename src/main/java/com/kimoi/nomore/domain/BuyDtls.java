@@ -2,6 +2,8 @@ package com.kimoi.nomore.domain;
 
 import org.hibernate.annotations.Immutable;
 
+import com.kimoi.nomore.domain.embedded.BuyDtlsId;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -28,6 +30,7 @@ public class BuyDtls {
     private Prod prod;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("buyDtlsNm")
     @JoinColumn(name = "buy_dtls_nm")
     private Buy buy;
 
