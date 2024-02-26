@@ -33,9 +33,10 @@ public class TokenDto {
         }
     }
 
+    // 로그아웃
     @Getter
     public static class GetRefreshToken {
-        private String refreshToken;
+        private String userId;
     }
 
 }

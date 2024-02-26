@@ -60,7 +60,6 @@ public class JdbcProdRepository {
         String sql = "select * from prod Inner Join " + prodcode + " on(prod_dtls = dtls_id) Where prod_id = :prodId";
         SqlParameterSource namedParameters = new MapSqlParameterSource("prodId", prodId);
         List<Map<String, Object>> List = jdbcTemplate.queryForList(sql, namedParameters);
-        System.out.println(List);
         return List;
     }
 }

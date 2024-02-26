@@ -5,6 +5,7 @@ import com.kimoi.nomore.domain.User;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 public class UserDto {
 
@@ -41,6 +42,7 @@ public class UserDto {
 
     // 비밀번호 찾기 RequestDto
     @Getter
+    @Setter
     public static class FindUserPwdRequest {
         private String userId;
         private String userEmail;

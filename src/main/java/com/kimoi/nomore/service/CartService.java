@@ -42,9 +42,9 @@ public class CartService {
 
     // 장바구니 제거
     @Transactional
-    public boolean removeItem(String productId, RemoveItemRequest request) {
+    public boolean removeItem(String productId, String userId) {
         try {
-            CartId cartId = new CartId(request.getUserId(), productId);
+            CartId cartId = new CartId(userId, productId);
             int delete = cartRepository.deleteByCartId(cartId);
             return delete > 0;
         } catch (DataAccessException ex) {
@@ -53,10 +53,9 @@ public class CartService {
     }
 
     // 장바구니 조회
-    public List<GetAllItemsResponse> getAllItemsInCart(GetAllItemsRequest request) {
-        List<Cart> carts = cartRepository.findOptionalAllByCartId_CartUserId(request.getUserId())
+    public List<GetAllItemsResponse> getAllItemsInCart(String userId) {
+        List<Cart> carts = cartRepository.findOptionalAllByCartId_CartUserId(userId)
                 .orElseThrow(() -> new NotFoundErrorException("장바구니에 담긴 품목이 없습니다."));
-
         return carts.stream()
                 .map(cart -> {
                     Prod prod = prodRepository.findByProdId(cart.getCartId().getCartProdId())
@@ -70,6 +69,7 @@ public class CartService {
                             .prodPrc(prod.getProdPrc())
                             .cartCount(cart.getCartCount()) // 예시: cart 객체에 수량 정보가 있다고 가정합니다.
                             .build();
+
                 })
                 .collect(Collectors.toList());
     }

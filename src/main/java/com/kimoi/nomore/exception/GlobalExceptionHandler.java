@@ -47,8 +47,8 @@ public class GlobalExceptionHandler {
     }
 
     // 성공 메시지
-    @ExceptionHandler(SucessException.class)
-    public ResponseEntity<?> success(SucessException exception) {
+    @ExceptionHandler(SuccessException.class)
+    public ResponseEntity<?> success(SuccessException exception) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new ErrorMessageResponse(exception.getMessage()));

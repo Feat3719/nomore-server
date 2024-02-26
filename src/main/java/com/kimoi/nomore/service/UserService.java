@@ -6,7 +6,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.kimoi.nomore.domain.User;
-import com.kimoi.nomore.dto.UserDto.GetUserInfoRequest;
 import com.kimoi.nomore.dto.UserDto.GetUserInfoResponse;
 import com.kimoi.nomore.dto.UserDto.SaveUserInfoRequest;
 import com.kimoi.nomore.exception.NotFoundErrorException;
@@ -31,8 +30,8 @@ public class UserService {
     }
 
     // 유저 정보 조회
-    public GetUserInfoResponse getUserInfo(GetUserInfoRequest request) {
-        User user = authService.findByUserId(request.getUserId());
+    public GetUserInfoResponse getUserInfo(String userId) {
+        User user = authService.findByUserId(userId);
 
         return GetUserInfoResponse.builder()
                 .userId(user.getUserId())

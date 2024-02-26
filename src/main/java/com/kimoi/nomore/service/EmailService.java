@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.TemplateEngine;
 import com.kimoi.nomore.dto.EmailDto.Email;
-import com.kimoi.nomore.dto.EmailDto.EmailPostRequest;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -46,10 +45,10 @@ public class EmailService {
         }
     }
 
-    public void sendAuthEmail(EmailPostRequest emailPostRequest, Email email, String type) {
+    public void sendAuthEmail(String userEmail, Email email, String type) {
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-            MimeMessageHelper mimeMessageHelper = createMimeMessageHelper(mimeMessage, email.getTo(), email.getSubject(), setContext(authService.findUserId(emailPostRequest), type));
+            MimeMessageHelper mimeMessageHelper = createMimeMessageHelper(mimeMessage, email.getTo(), email.getSubject(), setContext(authService.findUserId(userEmail), type));
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
             throw new RuntimeException(e);

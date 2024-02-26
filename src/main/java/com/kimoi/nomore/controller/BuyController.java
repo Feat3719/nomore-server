@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kimoi.nomore.dto.BuyDto.BuyAllRequest;
 import com.kimoi.nomore.dto.BuyDto.BuyAllResponse;
 import com.kimoi.nomore.dto.BuyDto.BuyRequest;
-import com.kimoi.nomore.dto.UserDto.GetAllBoughtProductListRequest;
 import com.kimoi.nomore.service.BuyService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,8 +43,8 @@ public class BuyController {
     // 구매목록 조회하기
     @GetMapping("/list")
     public ResponseEntity<List<BuyAllResponse>> getBoughtProductList(
-            @RequestBody GetAllBoughtProductListRequest request) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(buyService.getAllBuyList(request));
+            @RequestParam String userId) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(buyService.getAllBuyList(userId));
     }
 
 }

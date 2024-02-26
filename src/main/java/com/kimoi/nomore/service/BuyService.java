@@ -63,7 +63,6 @@ public class BuyService {
 
         List<BuyDtls> buyDtlsList = createBuyDetails(buy, carts);
         buyRepository.save(buy);
-        System.out.println(buy.getBuyYmd());
         buyDtlsRepository.saveAll(buyDtlsList);
         updateUserMoney(user, user.getUserMoney() - totalCost);
 
@@ -95,7 +94,6 @@ public class BuyService {
                 .buyDtlsPrc(prod.getProdPrc())
                 .build();
         buyRepository.save(buy);
-        System.out.println(buy.getBuyYmd());
         buyDtlsRepository.save(buyDtls);
         updateUserMoney(user, user.getUserMoney() - totalCost);
 
@@ -156,9 +154,9 @@ public class BuyService {
     }
 
     // 구매 내역 조회
-    public List<BuyAllResponse> getAllBuyList(GetAllBoughtProductListRequest request) {
-        authService.findByUserId(request.getUserId());
-        List<BuyDtls> buyDtlsList = buyDtlsRepository.findByBuy_User_UserId(request.getUserId());
+    public List<BuyAllResponse> getAllBuyList(String userId) {
+        authService.findByUserId(userId);
+        List<BuyDtls> buyDtlsList = buyDtlsRepository.findByBuy_User_UserId(userId);
 
         return buyDtlsList.stream()
                 .map(buyDtls -> BuyAllResponse.builder()

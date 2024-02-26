@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,8 +39,8 @@ public class CartController {
 
     // 장바구니 삭제
     @DeleteMapping("/product/{productId}")
-    public ResponseEntity<?> getItems(@PathVariable String productId, @RequestBody RemoveItemRequest request) {
-        if (cartService.removeItem(productId, request)) {
+    public ResponseEntity<?> getItems(@PathVariable String productId, @RequestParam String userId) {
+        if (cartService.removeItem(productId, userId)) {
             return ResponseEntity.status(HttpStatus.OK).body("SUCCESS : REMOVE ITEM TO CART");
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("FAIL : REMOVE ITEM TO CART");
@@ -47,8 +48,8 @@ public class CartController {
 
     // 장바구니 조회
     @GetMapping("/products")
-    public ResponseEntity<List<GetAllItemsResponse>> getItems(@RequestBody GetAllItemsRequest request) {
-        return ResponseEntity.status(HttpStatus.OK).body(cartService.getAllItemsInCart(request));
+    public ResponseEntity<List<GetAllItemsResponse>> getItems(@RequestParam String userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(cartService.getAllItemsInCart(userId));
     }
 
     // 장바구니 저장

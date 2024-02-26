@@ -1,9 +1,9 @@
 package com.kimoi.nomore.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kimoi.nomore.dto.UserDto.GetUserInfoRequest;
 import com.kimoi.nomore.dto.UserDto.GetUserInfoResponse;
 import com.kimoi.nomore.dto.UserDto.SaveUserInfoRequest;
 import com.kimoi.nomore.service.UserService;
@@ -25,8 +25,8 @@ public class UserController {
 
     // 유저 정보 조회
     @GetMapping("/info")
-    public ResponseEntity<GetUserInfoResponse> getUserInfo(@RequestBody GetUserInfoRequest request) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserInfo(request));
+    public ResponseEntity<GetUserInfoResponse> getUserInfo(@RequestParam String userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserInfo(userId));
     }
 
     // 유저 정보 저장(수정)
@@ -41,4 +41,3 @@ public class UserController {
         }
     }
 }
-
